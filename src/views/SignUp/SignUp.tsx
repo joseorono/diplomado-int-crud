@@ -51,7 +51,7 @@ export const SignUp = () => {
     const handleChange = (event) => {
         setRegisterData({
             ...registerData,
-            [event.target.name]: event.target.value
+            [(event.target as HTMLInputElement).name]: (event.target as HTMLInputElement).value
         });
     }
 
