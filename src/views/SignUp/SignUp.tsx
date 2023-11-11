@@ -11,8 +11,9 @@ import { PiCodeBold } from 'react-icons/pi'
 import { registerUser } from '../../api';
 import { useState, useEffect } from 'react';
 import { SignUpRequestBody, SingUpRequestResponse } from '../../interfaces';
-import { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useAuthStore } from '../../store';
+import { toast } from 'react-toastify';
 
 /*
     Ejemplo de uso de la funcionde Registro
@@ -68,13 +69,21 @@ export const SignUp = () => {
             const response:AxiosResponse = await registerUser(registerData);
 
             if (response.status !== 201) {
+                toast.error(response.data)
                 return;
             }
+            
+            toast.success('Register successfully');
 
             // save user authentication
             grantAuthentication((response.data as SingUpRequestResponse).token);
         } catch (error) {
             console.error(error);
+            if (axios.isAxiosError(error)) {
+                toast.error(JSON.stringify(error?.response?.data))
+            } else {
+                toast.error('Error')
+            }
         } finally {
             setLoading(false)
         }
