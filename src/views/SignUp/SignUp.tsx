@@ -8,61 +8,78 @@ import {
     Flex
 } from '@chakra-ui/react';
 import { PiCodeBold } from 'react-icons/pi'
-
-import axios, { AxiosError, AxiosResponse } from 'axios';
-
-interface SignUpRequestBody {
-    first_name: string;
-    last_name: string;
-    email: string;
-    password: string;
-}
-
-const api_url = import.meta.env.VITE_API_AUTH_URL
-
-const registerUser = async (userData: SignUpRequestBody): Promise<void> => {
-    try {
-        const response: AxiosResponse = await axios.post(api_url + '/register/', userData, {
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-        });
-
-        // Handle successful registration
-        console.log('Registration successful!', response.data);
-    } catch (error: any) {
-        if (axios.isAxiosError(error)) {
-            // Axios error (e.g., network error, response status not in 2xx)
-            console.error('(Axios) Registration failed:', error.message);
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                console.error('Response data:', error.response.data);
-                console.error('Response status:', error.response.status);
-                console.error('Response headers:', error.response.headers);
-            }
-        } else {
-            // Non-Axios error
-            console.error('An unexpected error occurred:', error);
-        }
-    }
-};
-
+import { registerUser } from '../../api';
+import { useState, useEffect } from 'react';
+import { SignUpRequestBody, SingUpRequestResponse } from '../../interfaces';
+import { AxiosResponse } from 'axios';
+import { useAuthStore } from '../../store';
 
 /*
-Ejemplo de uso de la funcionde Registro
+    Ejemplo de uso de la funcionde Registro
 
-const userData: SignUpRequestBody = {
-  first_name: 'gerardo',
-  last_name: 'torres',
-  email: 'gtorres@binwus.com',
-  password: '123456',
-};
-Para usarlo...
-registerUser(userData);
+    const userData: SignUpRequestBody = {
+    first_name: 'gerardo',
+    last_name: 'torres',
+    email: 'gtorres@binwus.com',
+    password: '123456',
+    };
+    Para usarlo...
+    registerUser(userData);
 */
 
 export const SignUp = () => {
+
+
+    const { grantAuthentication } = useAuthStore()
+
+    const [registerData, setRegisterData] = useState<SignUpRequestBody>({
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: ''
+    });
+    const [disableButton, setDisableButton] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const { first_name, last_name, email, password } = registerData;
+
+    useEffect(() => {
+        setDisableButton(!first_name || !last_name || !email || !password);
+    }, [first_name, last_name, email, password]);
+
+    // manage changer events
+    const handleChange = (event) => {
+        setRegisterData({
+            ...registerData,
+            [event.target.name]: event.target.value
+        });
+    }
+
+    // manage user click register
+    const handleOnClickButton = async () => {
+        try {
+
+            // validate form is completed
+            if (!first_name || !last_name || !email || !password) return;
+
+            // active loading
+            setLoading(true);
+
+            const response:AxiosResponse = await registerUser(registerData);
+
+            if (response.status !== 201) {
+                return;
+            }
+
+            // save user authentication
+            grantAuthentication((response.data as SingUpRequestResponse).token);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
         <Flex w={'100%'} h={'100%'} justifyContent={'center'} alignItems={'center'}>
             <form action="" id='sign-up'>
@@ -78,30 +95,39 @@ export const SignUp = () => {
                 </header>
 
                 <main>
-                    <FormControl>
+                    <FormControl onChange={handleChange}>
                         <FormLabel>First name</FormLabel>
-                        <Input type="text" borderRadius={'1.5rem'} placeholder='Enter your first name' />
+                        <Input name='first_name' type="text" borderRadius={'1.5rem'} placeholder='Enter your first name' value={first_name} />
                     </FormControl>
 
-                    <FormControl>
+                    <FormControl onChange={handleChange}>
                         <FormLabel>Last name</FormLabel>
-                        <Input type="text" borderRadius={'1.5rem'} placeholder='Enter your last name' />
+                        <Input name='last_name' type="text" borderRadius={'1.5rem'} placeholder='Enter your last name' value={last_name} />
                     </FormControl>
 
-                    <FormControl>
+                    <FormControl onChange={handleChange}>
                         <FormLabel>Email</FormLabel>
-                        <Input type="email" borderRadius={'1.5rem'} placeholder='you@example.com' />
+                        <Input name='email' type="email" borderRadius={'1.5rem'} placeholder='you@example.com' value={email} />
                         <FormHelperText>We'll never share your email.</FormHelperText>
                     </FormControl>
 
-                    <FormControl>
+                    <FormControl onChange={handleChange}>
                         <FormLabel>Password</FormLabel>
-                        <Input type="password" borderRadius={'1.5rem'} placeholder='Must be 8 characters long' />
+                        <Input name='password' type="password" borderRadius={'1.5rem'} placeholder='Must be 8 characters long' value={password} />
                     </FormControl>
                 </main>
 
                 <footer>
-                    <Button colorScheme='blue' borderRadius={'1.5rem'} lineHeight={'inherit'} size={'lg'}>Sign up</Button>
+                    <Button 
+                        disabled={disableButton || loading}
+                        colorScheme='blue'
+                        borderRadius={'1.5rem'}
+                        lineHeight={'inherit'}
+                        size={'lg'}
+                        onClick={handleOnClickButton}
+                    >
+                        Sign up
+                    </Button>
                 </footer>
             </form>
         </Flex>
