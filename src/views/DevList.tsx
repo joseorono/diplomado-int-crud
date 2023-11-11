@@ -1,5 +1,5 @@
 import { Text, Button, Flex, Box } from "@chakra-ui/react"
-import useAuthStore from "../store/useAuthStore"
+import { useAuthStore } from "../store/"
 import { Row, createColumnHelper } from "@tanstack/react-table"
 import Dev from "../interfaces/dev.interface"
 import TableActions from "../components/Table/TableAction"
