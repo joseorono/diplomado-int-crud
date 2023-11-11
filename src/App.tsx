@@ -1,14 +1,9 @@
-import { useState } from 'react'
-
 import './App.css'
 
-function App() {
-
+export const App = () => {
   return (
     <>
       <h1>App Diplomado</h1>
     </>
   )
 }
-
-export default App
