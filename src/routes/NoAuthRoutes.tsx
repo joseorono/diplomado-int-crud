@@ -1,5 +1,5 @@
 import { Redirect, Route, Switch } from 'wouter'
-import { SignIn, SignUp } from '../pages'
+import { SignIn, SignUp } from '../views'
 
 const NoAuthRoutes = () => {
   return (
