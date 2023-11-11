@@ -1,13 +1,14 @@
-import { useState } from 'react'
-
+import { ChakraProvider } from '@chakra-ui/react'
 import './App.css'
+import Routes from './routes/Routes'
+import theme from './theme'
 
 function App() {
 
   return (
-    <>
-      <h1>App Diplomado</h1>
-    </>
+    <ChakraProvider theme={theme}>
+      <Routes />
+    </ChakraProvider>
   )
 }
 
