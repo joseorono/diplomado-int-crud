@@ -1,17 +1,28 @@
-import { Text, Button, Flex, Box } from "@chakra-ui/react"
 import { useAuthStore } from "../store/"
+import { Text, Button, Flex, Box, Icon, useDisclosure } from "@chakra-ui/react"
 import { Row, createColumnHelper } from "@tanstack/react-table"
 import Dev from "../interfaces/dev.interface"
 import TableActions from "../components/Table/TableAction"
 import Table from "../components/Table/Table"
 import { TableIcon } from "../components/Table/TableIcon"
 import { useState, useEffect } from "react"
+import { TbUserPlus } from "react-icons/tb"
+import AddDevModal from "./AddDevModal"
+import useAlertDialogStore from "../store/useAlertDialogStore"
 
 const DevList = () => {
 
   const { revokeAuthentication } = useAuthStore()
+  const { openAlertDialog } = useAlertDialogStore()
 
   const [devs, setDevs] = useState<Dev[]>([]);
+
+  // Add dev modal
+  const {
+    isOpen: isAddDevModalOpen,
+    onOpen: onAddDevModalOpen,
+    onClose: onAddDevModalClose,
+  } = useDisclosure()
 
   useEffect(() => {
     getDevs()
@@ -53,6 +64,19 @@ const DevList = () => {
     }, 200);
   }
 
+  const handleDeleteDev = async (dev: Dev) => {
+    const result = await openAlertDialog({
+      title: 'Confirm',
+      body: `Are you sure you want to delete ${dev.first_name} ${dev.last_name}?`,
+      confirmButtonText: 'Delete',
+      confirmButtonColorScheme: 'red',
+      cancelButtonText: 'Cancel'
+    })
+    if (result) {
+      // TODO: Implement API call for deleting dev
+    }
+  }
+
   const columnHelper = createColumnHelper<Dev>()
   const devListTableColumns = [
     columnHelper.accessor('first_name', {
@@ -76,15 +100,15 @@ const DevList = () => {
       cell: (info: { row: Row<Dev> }) => <TableActions row={info.row} actions={[
         {
           name: 'View',
-          onClick: (person: Dev) => console.log('Action view', person)
+          onClick: (dev: Dev) => console.log('Action view', dev)
         },
         {
           name: 'Edit',
-          onClick: (person: Dev) => console.log('Action edit', person)
+          onClick: (dev: Dev) => console.log('Action edit', dev)
         },
         {
           name: 'Delete',
-          onClick: (person: Dev) => console.log('Action delete', person)
+          onClick: (dev: Dev) => handleDeleteDev(dev)
         },
       ]} />
     }
@@ -96,7 +120,14 @@ const DevList = () => {
       <Box>
         <Table<Dev> data={devs} columns={devListTableColumns} />
       </Box>
-      <Button marginTop={'auto'} alignSelf={'end'} onClick={revokeAuthentication}>Logout</Button>
+      {/* Logout button */}
+      <Button marginTop={'auto'} alignSelf={'start'} onClick={revokeAuthentication}>Logout</Button>
+      {/* Add dev button */}
+      <Button position={'fixed'} bottom={'1em'} right={'1em'} rounded={'full'} height={'3em'} width={'3em'} colorScheme="blue" onClick={onAddDevModalOpen}>
+        <Icon as={TbUserPlus} fontSize={'2xl'} />
+      </Button>
+      {/* Add dev modal */}
+      <AddDevModal isOpen={isAddDevModalOpen} onClose={onAddDevModalClose} onAdd={getDevs} />
     </Flex>
   )
 }
