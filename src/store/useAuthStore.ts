@@ -3,15 +3,18 @@ import { persist } from "zustand/middleware";
 
 interface AuthStore {
   isAuthenticated: boolean
-  grantAuthentication: () => void
+  grantAuthentication: (token:string) => void
   revokeAuthentication: () => void
 }
 
-const useAuthStore = create<AuthStore>()(
+export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
       isAuthenticated: false,
-      grantAuthentication: () => set({ isAuthenticated: true }),
+      grantAuthentication: (token:string) => {
+        localStorage.setItem('AUTH_TOKEN', token);
+        set({ isAuthenticated: true })
+      },
       revokeAuthentication: () => set(() => {
         localStorage.removeItem('AUTH_TOKEN')
         return { isAuthenticated: false }
@@ -20,5 +23,3 @@ const useAuthStore = create<AuthStore>()(
     { name: 'auth-store' }
   )
 );
-
-export default useAuthStore;

@@ -1,4 +1,4 @@
-import useAuthStore from '../store/useAuthStore'
+import { useAuthStore } from '../store'
 import AuthRoutes from './AuthRoutes'
 import NoAuthRoutes from './NoAuthRoutes'
 import { Flex } from '@chakra-ui/react'
