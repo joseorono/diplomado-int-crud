@@ -14,7 +14,7 @@ import { Link } from 'wouter';
 import { registerUser } from '../../api';
 import { useState, useEffect } from 'react';
 import { SignUpRequestBody, SingUpRequestResponse } from '../../interfaces';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useAuthStore } from '../../store';
 import { toast } from 'react-toastify';
 
@@ -141,8 +141,7 @@ export const SignUp = () => {
                         borderRadius={'1.5rem'}
                         lineHeight={'inherit'}
                         size={'lg'}
-                        onClick={handleOnClickButton}
-                    >
+                        onClick={handleOnClickButton}>
                         Sign up
                     </Button>
                 </footer >
