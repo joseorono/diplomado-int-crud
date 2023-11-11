@@ -5,11 +5,14 @@ import {
     Input,
     FormHelperText,
     Button,
-    Flex
+    Flex,
+    InputGroup,
+    InputLeftElement
 } from '@chakra-ui/react';
-import { PiCodeBold } from 'react-icons/pi'
+import { PiCodeBold, PiEnvelopeSimpleDuotone, PiLockDuotone, PiUserDuotone, PiPencilDuotone } from 'react-icons/pi'
 
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { Link } from 'wouter';
 
 interface SignUpRequestBody {
     first_name: string;
@@ -73,35 +76,55 @@ export const SignUp = () => {
                     </section>
                     <section>
                         <h2>Welcome!</h2>
-                        <p>Fill out the form to sign up</p>
+                        <p>Already have an account? <Link href='/sign-in'>Sign in</Link></p>
                     </section>
                 </header>
 
                 <main>
                     <FormControl>
                         <FormLabel>First name</FormLabel>
-                        <Input type="text" borderRadius={'1.5rem'} placeholder='Enter your first name' />
+                        <InputGroup>
+                            <InputLeftElement pointerEvents='none'>
+                                <PiUserDuotone color={'#dbe7ff99'} />
+                            </InputLeftElement>
+                            <Input type="text" borderRadius={'1.5rem'} placeholder='Enter your first name' />
+                        </InputGroup>
                     </FormControl>
 
                     <FormControl>
                         <FormLabel>Last name</FormLabel>
-                        <Input type="text" borderRadius={'1.5rem'} placeholder='Enter your last name' />
+                        <InputGroup>
+                            <InputLeftElement pointerEvents='none'>
+                                <PiPencilDuotone color={'#dbe7ff99'} />
+                            </InputLeftElement>
+                            <Input type="text" borderRadius={'1.5rem'} placeholder='Enter your last name' />
+                        </InputGroup>
                     </FormControl>
 
                     <FormControl>
                         <FormLabel>Email</FormLabel>
-                        <Input type="email" borderRadius={'1.5rem'} placeholder='you@example.com' />
+                        <InputGroup>
+                            <InputLeftElement pointerEvents='none'>
+                                <PiEnvelopeSimpleDuotone color={'#dbe7ff99'} />
+                            </InputLeftElement>
+                            <Input type="email" borderRadius={'1.5rem'} placeholder='you@example.com' />
+                        </InputGroup>
                         <FormHelperText>We'll never share your email.</FormHelperText>
                     </FormControl>
 
                     <FormControl>
                         <FormLabel>Password</FormLabel>
-                        <Input type="password" borderRadius={'1.5rem'} placeholder='Must be 8 characters long' />
+                        <InputGroup>
+                            <InputLeftElement pointerEvents='none'>
+                                <PiLockDuotone color={'#dbe7ff99'} />
+                            </InputLeftElement>
+                            <Input type="password" borderRadius={'1.5rem'} placeholder='Must be 8 characters long' />
+                        </InputGroup>
                     </FormControl>
                 </main>
 
                 <footer>
-                    <Button colorScheme='blue' borderRadius={'1.5rem'} lineHeight={'inherit'} size={'lg'}>Sign up</Button>
+                    <Button type='submit' colorScheme='blue' borderRadius={'1.5rem'} lineHeight={'inherit'} size={'lg'}>Sign up</Button>
                 </footer>
             </form>
         </Flex>

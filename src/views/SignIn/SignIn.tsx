@@ -5,10 +5,13 @@ import {
     Input,
     FormHelperText,
     Button,
-    Flex
+    Flex,
+    InputGroup,
+    InputLeftElement
 } from '@chakra-ui/react';
-import { PiCodeBold } from 'react-icons/pi'
+import { PiCodeBold, PiEnvelopeSimpleDuotone, PiLockDuotone } from 'react-icons/pi'
 import axios, { AxiosResponse } from 'axios';
+import { Link } from 'wouter';
 
 interface signInRequestBody {
     email: string;
@@ -57,25 +60,34 @@ export const SignIn = () => {
                     </section>
                     <section>
                         <h2>Welcome!</h2>
-                        <p>Fill out the form to sign in</p>
+                        <p>Don't have an account? <Link href='/sign-up'>Sign up</Link></p>
                     </section>
                 </header>
 
                 <main>
                     <FormControl>
                         <FormLabel>Email</FormLabel>
-                        <Input type="email" borderRadius={'1.5rem'} placeholder='you@example.com' />
-                        <FormHelperText>We'll never share your email.</FormHelperText>
+                        <InputGroup>
+                            <InputLeftElement pointerEvents='none'>
+                                <PiEnvelopeSimpleDuotone color={'#dbe7ff99'} />
+                            </InputLeftElement>
+                            <Input type="email" borderRadius={'1.5rem'} placeholder='you@example.com' />
+                        </InputGroup>
                     </FormControl>
 
                     <FormControl>
                         <FormLabel>Password</FormLabel>
-                        <Input type="password" borderRadius={'1.5rem'} placeholder='Must be 8 characters long' />
+                        <InputGroup>
+                            <InputLeftElement pointerEvents='none'>
+                                <PiLockDuotone color={'#dbe7ff99'} />
+                            </InputLeftElement>
+                            <Input type="password" borderRadius={'1.5rem'} placeholder='Must be 8 characters long' />
+                        </InputGroup>
                     </FormControl>
                 </main>
 
                 <footer>
-                    <Button colorScheme='blue' borderRadius={'1.5rem'} lineHeight={'inherit'} size={'lg'}>Sign in</Button>
+                    <Button type='submit' colorScheme='blue' borderRadius={'1.5rem'} lineHeight={'inherit'} size={'lg'}>Sign in</Button>
                 </footer>
             </form>
         </Flex>
