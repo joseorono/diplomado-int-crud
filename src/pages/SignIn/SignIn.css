@@ -1,0 +1,71 @@
+#sign-in {
+	background-color: var(--container);
+	width: 40rem;
+	height: 33rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: stretch;
+	flex-flow: column wrap;
+	padding: 3rem;
+	border-radius: 1.5rem;
+	box-shadow: 0px 0px 3rem var(--box-shadow);
+
+	> header {
+		flex: 0.2;
+		display: flex;
+		justify-content: center;
+		align-items: stretch;
+		flex-flow: column wrap;
+		gap: 1.5rem;
+
+		& h1 {
+			font-size: 1.5rem;
+			font-weight: 500;
+		}
+
+		& h2 {
+			font-size: 1.1rem;
+			font-weight: 500;
+		}
+
+		& p {
+			font-size: 16px;
+			color: var(--text-secondary);
+		}
+
+		> section {
+			&:first-child {
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				flex-flow: row wrap;
+				gap: 0.5rem;
+			}
+
+			&:last-child {
+				display: flex;
+				justify-content: flex-start;
+				align-items: stretch;
+				flex-flow: column wrap;
+				gap: 0.1rem;
+			}
+		}
+	}
+
+	> main {
+		display: flex;
+		justify-content: center;
+		align-items: stretch;
+		flex-flow: column wrap;
+		gap: 1rem;
+		flex: 2;
+	}
+
+	> footer {
+		flex: 0.2;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		flex-flow: row wrap;
+	}
+}
