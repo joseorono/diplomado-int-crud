@@ -7,8 +7,11 @@ import Table from "../components/Table/Table"
 import { TableIcon } from "../components/Table/TableIcon"
 import { useState, useEffect } from "react"
 import { TbUserPlus } from "react-icons/tb"
-import AddDevModal from "./AddDevModal"
+import DevModal from "./DevModal"
 import useAlertDialogStore from "../store/useAlertDialogStore"
+import { toast } from "react-toastify"
+import { AxiosResponse } from "axios"
+import { deleteDev, getDevs } from "../api/devs"
 
 const DevList = () => {
 
@@ -16,64 +19,51 @@ const DevList = () => {
   const { openAlertDialog } = useAlertDialogStore()
 
   const [devs, setDevs] = useState<Dev[]>([]);
+  const [selectedDev, setSelectedDev] = useState<Dev>();
 
   // Add dev modal
   const {
-    isOpen: isAddDevModalOpen,
-    onOpen: onAddDevModalOpen,
-    onClose: onAddDevModalClose,
+    isOpen: isDevModalOpen,
+    onOpen: onDevModalOpen,
+    onClose: onDevModalClose,
   } = useDisclosure()
 
   useEffect(() => {
-    getDevs()
+    getDevList()
   }, []);
 
-  const getDevs = async () => {
-    setTimeout(() => {
-      // TODO: Remove mock data
-      const devs: Dev[] = [
-        {
-          first_name: 'Nathalie',
-          last_name: 'Zambrano',
-          age: 23,
-          country: 'Venezuela',
-          email: 'Nathalie@fswd.com',
-          created_at: '',
-          updated_at: ''
-        },
-        {
-          first_name: 'Andres',
-          last_name: 'Chaparro',
-          age: 23,
-          country: 'Venezuela',
-          email: 'Andres@fswd.com',
-          created_at: '',
-          updated_at: ''
-        },
-        {
-          first_name: 'Jose',
-          last_name: 'Orono',
-          age: 27,
-          country: 'Colombia',
-          email: 'JoseO@fswd.com',
-          created_at: '',
-          updated_at: ''
-        },
-      ]
-      setDevs(devs)
-    }, 200);
+  const getDevList = async () => {
+    const response: AxiosResponse = await getDevs();
+
+    if (response.status !== 200) {
+      toast.error(response.data);
+      return;
+    }
+
+    setDevs(response.data)
   }
 
   const handleDeleteDev = async (dev: Dev) => {
     const result = await openAlertDialog({
       title: 'Confirm',
-      body: `Are you sure you want to delete ${dev.first_name} ${dev.last_name}?`,
+      body: `Are you sure you want to delete dev ${dev.first_name} ${dev.last_name}?`,
       confirmButtonText: 'Delete',
       confirmButtonColorScheme: 'red',
       cancelButtonText: 'Cancel'
     })
     if (result) {
-      // TODO: Implement API call for deleting dev
+      try {
+        if (!dev?.id) return
+        const response: AxiosResponse = await deleteDev(dev.id.toString());
+        if (response.status !== 204) {
+          toast.error(response.data);
+          return;
+        }
+        toast.success("Dev deleted");
+        getDevList()
+      } catch (error) {
+        toast.error("Error deleting dev");
+      }
     }
   }
 
@@ -99,12 +89,11 @@ const DevList = () => {
       header: () => <TableIcon icon='refresh' onClick={getDevs} />,
       cell: (info: { row: Row<Dev> }) => <TableActions row={info.row} actions={[
         {
-          name: 'View',
-          onClick: (dev: Dev) => console.log('Action view', dev)
-        },
-        {
           name: 'Edit',
-          onClick: (dev: Dev) => console.log('Action edit', dev)
+          onClick: (dev: Dev) => {
+            setSelectedDev(dev)
+            onDevModalOpen()
+          }
         },
         {
           name: 'Delete',
@@ -123,11 +112,18 @@ const DevList = () => {
       {/* Logout button */}
       <Button marginTop={'auto'} alignSelf={'start'} onClick={revokeAuthentication}>Logout</Button>
       {/* Add dev button */}
-      <Button position={'fixed'} bottom={'1em'} right={'1em'} rounded={'full'} height={'3em'} width={'3em'} colorScheme="blue" onClick={onAddDevModalOpen}>
+      <Button position={'fixed'} bottom={'1em'} right={'1em'} rounded={'full'} height={'3em'} width={'3em'} colorScheme="blue" onClick={onDevModalOpen}>
         <Icon as={TbUserPlus} fontSize={'2xl'} />
       </Button>
       {/* Add dev modal */}
-      <AddDevModal isOpen={isAddDevModalOpen} onClose={onAddDevModalClose} onAdd={getDevs} />
+      <DevModal
+        isOpen={isDevModalOpen}
+        onClose={() => {
+          onDevModalClose()
+          setSelectedDev(undefined)
+        }}
+        onRefresh={getDevList}
+        dev={selectedDev} />
     </Flex>
   )
 }

@@ -20,7 +20,7 @@ import Dev from '../interfaces/dev.interface'
 import { postDevs, putDevs } from '../api/devs'
 import { toast } from 'react-toastify'
 import { AxiosResponse } from 'axios'
-import { validateEmail } from '../utils/validateEmail'
+import { validateEmail } from '../utils'
 
 interface AddDevModalProps {
 	isOpen: boolean
