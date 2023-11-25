@@ -4,10 +4,12 @@ import Routes from './routes/Routes'
 import theme from './theme'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AlertDialog from './components/AlertDialog'
 
 export const App = () => {
   return (
     <ChakraProvider theme={theme}>
+      <AlertDialog />
       <Routes />
       <ToastContainer 
         position="top-right"
