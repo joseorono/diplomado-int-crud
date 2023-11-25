@@ -33,6 +33,10 @@
 			color: var(--text-secondary);
 		}
 
+		& a:hover {
+			color: var(--chakra-colors-blue-200);
+		}
+
 		> section {
 			&:first-child {
 				display: flex;
