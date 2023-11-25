@@ -3,12 +3,12 @@
     "jsxSingleQuote": true,
     "bracketSameLine": true,
     "bracketSpacing": true,
-    "endOfLine": "lf",
-    "printWidth": 100,
+    "endOfLine": "crlf",
+    "printWidth": 150,
     "quoteProps": "as-needed",
     "semi": false,
     "singleQuote": true,
-    "tabWidth": 2,
+    "tabWidth": 4,
     "trailingComma": "none",
-    "useTabs": false
+    "useTabs": true
 }
