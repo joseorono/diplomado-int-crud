@@ -82,7 +82,7 @@ const DevList = () => {
       header: 'Age',
     }),
     columnHelper.accessor('country', {
-      header: 'Status',
+      header: 'Country',
     }),
     {
       id: 'Actions',

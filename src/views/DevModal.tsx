@@ -61,6 +61,7 @@ const DevModal = ({ isOpen, onClose, onRefresh, dev }: AddDevModalProps) => {
 			onRefresh()
 			onClose()
 		} catch (error) {
+			console.log(error)
 			setIsLoading(false)
 			toast.error('Error creting dev')
 		}
