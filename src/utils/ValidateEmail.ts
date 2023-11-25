@@ -1,8 +1,4 @@
-const validateEmail = (email: string) => {
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      return (true)
-  }
-  return (false)
+export const validateEmail = (email: string) => {
+	const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+	return regex.test(email)
 }
-
-export default validateEmail

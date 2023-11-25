@@ -8,6 +8,7 @@ import axios, { AxiosResponse } from 'axios'
 import { toast } from 'react-toastify'
 import { SingUpRequestResponse } from '../../interfaces'
 import { Link } from 'wouter'
+import { validateEmail, validatePassword } from '../../utils'
 
 export const SignIn = () => {
 	const { grantAuthentication } = useAuthStore()
@@ -21,7 +22,7 @@ export const SignIn = () => {
 	const { email, password } = authForm
 
 	useEffect(() => {
-		setDisableButton(!email || !password)
+		setDisableButton(!email || !password || !validateEmail(email) || !validatePassword(password))
 	}, [email, password])
 
 	// manage changer events
@@ -68,7 +69,7 @@ export const SignIn = () => {
 
 	return (
 		<Flex w={'100%'} h={'100%'} justifyContent={'center'} alignItems={'center'}>
-			<form method='post' id='sign-in'>
+			<form method='post' id='sign-in' onSubmit={handleOnSubmit}>
 				<header>
 					<section>
 						<PiCodeBold size={'1.5rem'} />
@@ -121,8 +122,8 @@ export const SignIn = () => {
 				<footer>
 					<Button
 						type='submit'
-						disabled={disable || loading}
-						onClick={handleOnSubmit}
+						isDisabled={disable}
+						isLoading={loading}
 						colorScheme='blue'
 						borderRadius={'1.5rem'}
 						lineHeight={'inherit'}

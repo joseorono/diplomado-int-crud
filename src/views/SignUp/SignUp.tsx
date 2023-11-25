@@ -8,6 +8,7 @@ import { SignUpRequestBody, SingUpRequestResponse } from '../../interfaces'
 import axios, { AxiosResponse } from 'axios'
 import { useAuthStore } from '../../store'
 import { toast } from 'react-toastify'
+import { validateEmail, validatePassword } from '../../utils'
 
 export const SignUp = () => {
 	const { grantAuthentication } = useAuthStore()
@@ -19,12 +20,12 @@ export const SignUp = () => {
 		password: ''
 	})
 	const [disableButton, setDisableButton] = useState<boolean>(false)
-	const [loading, setLoading] = useState<boolean>(true)
+	const [loading, setLoading] = useState<boolean>(false)
 
 	const { first_name, last_name, email, password } = registerData
 
 	useEffect(() => {
-		setDisableButton(!first_name || !last_name || !email || !password)
+		setDisableButton(!first_name || !last_name || !email || !password || !validateEmail(email) || !validatePassword(password))
 	}, [first_name, last_name, email, password])
 
 	// manage changer events
@@ -135,7 +136,7 @@ export const SignUp = () => {
 								onChange={handleChange}
 							/>
 						</InputGroup>
-						<FormHelperText>We'll never share your email.</FormHelperText>
+						<FormHelperText>We'll never share your email</FormHelperText>
 					</FormControl>
 
 					<FormControl>
@@ -153,17 +154,21 @@ export const SignUp = () => {
 								onChange={handleChange}
 							/>
 						</InputGroup>
+						<FormHelperText>
+							Must be 8 characters long, have at least one uppercase letter, one lowercase letter, one number and one special character
+						</FormHelperText>
 					</FormControl>
 				</main>
 
 				<footer>
 					<Button
 						type='submit'
-						disabled={disableButton || loading}
+						isDisabled={disableButton}
 						colorScheme='blue'
 						borderRadius={'1.5rem'}
 						lineHeight={'inherit'}
-						size={'lg'}>
+						size={'lg'}
+						isLoading={loading}>
 						Sign up
 					</Button>
 				</footer>
