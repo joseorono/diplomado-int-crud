@@ -13,3 +13,15 @@ export interface SingUpRequestResponse {
     token                   :string;
     user                    :UserBasicData;
 }
+
+export interface SignInRequestBody {
+    email                   :string;
+    password                :string;
+}
+
+export interface SignInRequestOption {
+    method                  :string;
+    url                     :string;
+    headers                 :any;
+    data                    :SignInRequestBody;
+}

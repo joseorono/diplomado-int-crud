@@ -11,7 +11,7 @@ import { PiCodeBold } from 'react-icons/pi'
 import { registerUser } from '../../api';
 import { useState, useEffect } from 'react';
 import { SignUpRequestBody, SingUpRequestResponse } from '../../interfaces';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useAuthStore } from '../../store';
 import { toast } from 'react-toastify';
 
