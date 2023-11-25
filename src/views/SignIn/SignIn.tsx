@@ -1,6 +1,6 @@
 import './SignIn.css'
-import { FormControl, FormLabel, Input, FormHelperText, Button, Flex } from '@chakra-ui/react'
-import { PiCodeBold } from 'react-icons/pi'
+import { FormControl, FormLabel, Input, Button, Flex, InputGroup, InputLeftElement } from '@chakra-ui/react'
+import { PiCodeBold, PiEnvelopeSimpleDuotone, PiLockDuotone } from 'react-icons/pi'
 import { signInUser } from '../../api'
 import { useAuthStore } from '../../store'
 import { useEffect, useState } from 'react'
@@ -83,14 +83,38 @@ export const SignIn = () => {
 				</header>
 
 				<main>
-					<FormControl onChange={handleChange}>
+					<FormControl>
 						<FormLabel>Email</FormLabel>
-						<Input name='email' type='email' borderRadius={'1.5rem'} placeholder='you@example.com' value={email} />
+						<InputGroup>
+							<InputLeftElement pointerEvents={'none'}>
+								<PiEnvelopeSimpleDuotone color={'#dbe7ff99'} />
+							</InputLeftElement>
+							<Input
+								name='email'
+								type='email'
+								borderRadius={'1.5rem'}
+								placeholder='you@example.com'
+								value={email}
+								onChange={handleChange}
+							/>
+						</InputGroup>
 					</FormControl>
 
-					<FormControl onChange={handleChange}>
+					<FormControl>
 						<FormLabel>Password</FormLabel>
-						<Input name='password' type='password' borderRadius={'1.5rem'} placeholder='Must be 8 characters long' value={password} />
+						<InputGroup>
+							<InputLeftElement>
+								<PiLockDuotone color={'#dbe7ff99'} />
+							</InputLeftElement>
+							<Input
+								name='password'
+								type='password'
+								borderRadius={'1.5rem'}
+								placeholder='Must be 8 characters long'
+								value={password}
+								onChange={handleChange}
+							/>
+						</InputGroup>
 					</FormControl>
 				</main>
 
