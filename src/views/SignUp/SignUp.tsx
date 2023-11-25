@@ -86,44 +86,72 @@ export const SignUp = () => {
 				</header>
 
 				<main>
-					<FormControl onChange={handleChange}>
+					<FormControl>
 						<FormLabel>First name</FormLabel>
 						<InputGroup>
 							<InputLeftElement pointerEvents='none'>
 								<PiUserDuotone color={'#dbe7ff99'} />
 							</InputLeftElement>
-							<Input name='first_name' type='text' borderRadius={'1.5rem'} placeholder='Enter your first name' value={first_name} />
+							<Input
+								name='first_name'
+								type='text'
+								borderRadius={'1.5rem'}
+								placeholder='Enter your first name'
+								value={first_name}
+								onChange={handleChange}
+							/>
 						</InputGroup>
 					</FormControl>
 
-					<FormControl onChange={handleChange}>
+					<FormControl>
 						<FormLabel>Last name</FormLabel>
 						<InputGroup>
 							<InputLeftElement pointerEvents='none'>
 								<PiPencilDuotone color={'#dbe7ff99'} />
 							</InputLeftElement>
-							<Input name='last_name' type='text' borderRadius={'1.5rem'} placeholder='Enter your last name' value={last_name} />
+							<Input
+								name='last_name'
+								type='text'
+								borderRadius={'1.5rem'}
+								placeholder='Enter your last name'
+								value={last_name}
+								onChange={handleChange}
+							/>
 						</InputGroup>
 					</FormControl>
 
-					<FormControl onChange={handleChange}>
+					<FormControl>
 						<FormLabel>Email</FormLabel>
 						<InputGroup>
 							<InputLeftElement pointerEvents='none'>
 								<PiEnvelopeSimpleDuotone color={'#dbe7ff99'} />
 							</InputLeftElement>
-							<Input name='email' type='email' borderRadius={'1.5rem'} placeholder='you@example.com' value={email} />
+							<Input
+								name='email'
+								type='email'
+								borderRadius={'1.5rem'}
+								placeholder='you@example.com'
+								value={email}
+								onChange={handleChange}
+							/>
 						</InputGroup>
 						<FormHelperText>We'll never share your email.</FormHelperText>
 					</FormControl>
 
-					<FormControl onChange={handleChange}>
+					<FormControl>
 						<FormLabel>Password</FormLabel>
 						<InputGroup>
 							<InputLeftElement pointerEvents='none'>
 								<PiLockDuotone color={'#dbe7ff99'} />
 							</InputLeftElement>
-							<Input name='password' type='password' borderRadius={'1.5rem'} placeholder='Must be 8 characters long' value={password} />
+							<Input
+								name='password'
+								type='password'
+								borderRadius={'1.5rem'}
+								placeholder='Must be 8 characters long'
+								value={password}
+								onChange={handleChange}
+							/>
 						</InputGroup>
 					</FormControl>
 				</main>
