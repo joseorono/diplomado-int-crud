@@ -5,6 +5,7 @@ import Dev from '../interfaces/dev.interface';
 import { postDevs, putDevs } from '../api/devs';
 import { toast } from 'react-toastify';
 import { AxiosResponse } from 'axios';
+import validateEmail from '../utils/ValidateEmail';
 
 interface AddDevModalProps {
   isOpen: boolean
@@ -14,8 +15,6 @@ interface AddDevModalProps {
 }
 
 const DevModal = ({ isOpen, onClose, onRefresh, dev }: AddDevModalProps) => {
-
-  console.log('dev', dev)
 
   const [isLoading, setIsLoading] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -76,7 +75,7 @@ const DevModal = ({ isOpen, onClose, onRefresh, dev }: AddDevModalProps) => {
   }
 
   useEffect(() => {
-    setIsFormValid(!!devForm.first_name && !!devForm.last_name && !!devForm.email)
+    setIsFormValid(!!devForm.first_name && !!devForm.last_name && !!devForm.email && (!!devForm.age && !isNaN(devForm.age)) && (!!devForm.email && validateEmail(devForm.email)))
   }, [devForm]);
 
   return (
